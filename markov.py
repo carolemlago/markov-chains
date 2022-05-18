@@ -1,17 +1,23 @@
 """Generate Markov text from text files."""
 
+# from importlib.resources import contents
+#from importlib.resources import contents
 from random import choice
 
+  
 
 def open_and_read_file(file_path):
     """Take file path as string; return text as string.
+
+
 
     Takes a string that is a file path, opens the file, and turns
     the file's contents as one string of text.
     """
 
     contents = open(file_path).read()
-
+    # for words in words.item():
+        
     return contents
 
 
@@ -21,12 +27,15 @@ def make_chains(text_string):
     A chain will be a key that consists of a tuple of (word1, word2)
     and the value would be a list of the word(s) that follow those two
     words in the input text.
+    
 
     For example:
 
         >>> chains = make_chains('hi there mary hi there juanita')
 
-    Each bigram (except the last) will be a key in chains:
+    Each bigram (except the last) will be a k
+    
+    ey in chains:
 
         >>> sorted(chains.keys())
         [('hi', 'there'), ('mary', 'hi'), ('there', 'mary')]
@@ -40,20 +49,53 @@ def make_chains(text_string):
         [None]
     """
 
+   # chains = {}
+    
+    #words = text_string.split()
+    #for i in range(len(words)):
+    #   key = (words[i], words[i+1])
+    #   chains[key] = [words[i+2]]]]
+
     chains = {}
 
-    # your code goes here
+    words= text_string.split()
+    # for words in text_string:
+        
+    for i in range (0, len(words) - 2):
+        key = (words[i], words[i+1])
+        # chains[key] = [words[i+2]]
+        
+        if (words[i], words[i + 1]) in chains:
+            # Add to the existing list
+            chains[(words[i], words[i + 1])].append(words[i + 2])
+        else:
+            # Create a new list
+            chains[(words[i], words[i + 1])] = [words[i + 2]]
 
+    print(chains)
     return chains
+
+       
+    
+    """
+    Takes an input text as a list of strings and returns a dictionary of markov chains.
+    """
+
+
 
 
 def make_text(chains):
     """Return text from chains."""
 
     words = []
+    
 
-    # your code goes here
-
+    key_word = choice(list(chains.keys()))
+    
+    value_rand = choice(chains[key_word])
+    words.extend(key_word)
+    words.extend(value_rand)
+    
     return ' '.join(words)
 
 
@@ -69,3 +111,4 @@ chains = make_chains(input_text)
 random_text = make_text(chains)
 
 print(random_text)
+
